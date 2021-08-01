@@ -123,7 +123,7 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        tar -czvpf openwrt.tar.gz openwrt/
+        tar -czvpf openwrt.tar.gz /home/gaoadmin/openwrt
         echo "FIRMWARE=$PWD/openwrt.tar.gz" >> $GITHUB_ENV
         echo "::set-output name=status::success"
     - name: Upload firmware directory
