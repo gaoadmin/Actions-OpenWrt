@@ -10,6 +10,7 @@ uci commit system
 uci set fstab.@global[0].anon_mount=1
 uci commit fstab
 
+
 rm -f /usr/lib/lua/luci/view/admin_status/index/mwan.htm
 rm -f /usr/lib/lua/luci/view/admin_status/index/upnp.htm
 rm -f /usr/lib/lua/luci/view/admin_status/index/ddns.htm
@@ -29,9 +30,8 @@ sed -i 's/services/nas/g'  /usr/lib/lua/luci/view/minidlna_status.htm
 
 ln -sf /sbin/ip /usr/bin/ip
 
-sed -i 's/downloads.openwrt.org/openwrt.proxy.ustclug.org/g' /etc/opkg/distfeeds.conf
-sed -i 's/http:/https:/g' /etc/opkg/distfeeds.conf
-sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
+sed -i 's#http://downloads.openwrt.org#https://mirrors.cloud.tencent.com/lede#g' /etc/opkg/distfeeds.conf
+sed -i 's/root::0:0:99999:7:::/root:$1$36ulPtIJ$Evny8mxqYxuqfmz31Snlf.:0:0:99999:7:::/g' /etc/shadow
 
 sed -i "s/# //g" /etc/opkg/distfeeds.conf
 sed -i '/openwrt_luci/ { s/snapshots/releases\/18.06.8/g; }'  /etc/opkg/distfeeds.conf
@@ -44,9 +44,16 @@ sed -i '/option disabled/d' /etc/config/wireless
 sed -i '/set wireless.radio${devidx}.disabled/d' /lib/wifi/mac80211.sh
 
 sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
-echo "DISTRIB_REVISION='R20.9.15'" >> /etc/openwrt_release
+echo "DISTRIB_REVISION='Lede'" >> /etc/openwrt_release
 sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release
-echo "DISTRIB_DESCRIPTION='OpenWrt '" >> /etc/openwrt_release
+echo "DISTRIB_DESCRIPTION='Grover - '" >> /etc/openwrt_release
+
+sed -i 's/LuCI Master/Grover/g' /usr/lib/lua/luci/version.lua
+sed -i 's/LuCI openwrt-18.06 branch/Grover/g' /usr/lib/lua/luci/version.lua
+sed -i 's/LuCI 17.01 Lienol/Grover/g' /usr/lib/lua/luci/version.lua
+sed -i 's/LuCI openwrt-21.02 branch/Grover/g' /usr/lib/lua/luci/version.lua
+sed -i '/luciversion/d' /usr/lib/lua/luci/version.lua
+echo 'luciversion = "June"' >> /usr/lib/lua/luci/version.lua
 
 sed -i '/log-facility/d' /etc/dnsmasq.conf
 echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
@@ -57,11 +64,8 @@ echo 'hsts=0' > /root/.wgetrc
 
 rm -rf /tmp/luci-modulecache/
 rm -f /tmp/luci-indexcache
-
-
-# Enable ssh RootLogin
-sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
-sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
-service sshd restart
+ifconfig eth1 down
+sleep 1s
+ifconfig eth1 hw ether C8:3A:35:25:0A:58
 
 exit 0
