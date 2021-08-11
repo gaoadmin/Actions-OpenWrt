@@ -17,3 +17,4 @@
 #sed -i '$a src-git lienol https://github.com/Lienol/openwrt-package' feeds.conf.default
 #git clone https://github.com/MrH723/openwrt-packages.git package/openwrt-packages
 sed -i '$a src-git litte https://github.com/gaoadmin/litte' feeds.conf.default
+sed -i '$a src-git small https://github.com/kenzok8/small' feeds.conf.default
