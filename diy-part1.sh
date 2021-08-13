@@ -18,5 +18,5 @@
 #git clone https://github.com/MrH723/openwrt-packages.git package/openwrt-packages
 sed -i '$a src-git litte https://github.com/gaoadmin/litte' feeds.conf.default
 sed -i '$a src-git small https://github.com/kenzok8/small' feeds.conf.default
-sed -i 's/192.168.1.1/10.0.0.1/g' openwrt/package/base-files/files/bin/config_generate
-sed -i 's/192.168/10.0/g' openwrt/package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/10.0.0.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168/10.0/g' package/base-files/files/bin/config_generate
